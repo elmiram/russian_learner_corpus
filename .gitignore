@@ -6,3 +6,6 @@
 
 # Django related
 *.mo
+
+# Python
+*.pyc
