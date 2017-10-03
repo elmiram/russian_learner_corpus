@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+{% block head %}
+    {% block meta %}
+        <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+     <meta name="title" content="{% block meta_content %}My amazing site{% endblock %}">
+     <meta name="robots" content="index,all">
+     <meta name="resourse-type" content="document">
+     <meta name="document-state" content="dynamic">
+    {% endblock %}
+
+    <title>
+        {% block title %}Russian Learner Corpus{% endblock %}
+    </title>
+
+  {% load staticfiles %}
+     <!-- Bootstrap -->
+<link href="{% static "css/spacelab.css" %}" rel="stylesheet">
+  <script src="{% static "js/jquery.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+
+ <!-- x-editable (bootstrap version) -->
+ <script src="{% static "bootstrap3-editable/js/bootstrap-editable.min.js" %}"></script>
+<script src="{% static "bootstrap3-editable/css/bootstrap-editable.css" %}"></script>
+      {% block links %}
+          <link href="{% static "css/style.css" %}" rel="stylesheet">
+  {% endblock %}
+    {% block annotator %}
+     <!-- Annotator -->
+  <script>$('html').ajaxSend(function(event, xhr, settings) { if (!/^https?:.*/.test(settings.url)) xhr.setRequestHeader("X-CSRFToken", "{{csrf_token|escapejs}}"); });</script> <!-- {% csrf_token %} -->
+    <script src="{% static "js/annotator-full.js" %}"></script>
+    <link rel="stylesheet" href="{% static "css/annotator.css" %}">
+              <script>
+Annotator.Plugin.ReadOnlyAnnotations = function (element) {
+  return {
+    pluginInit: function () {
+      this.annotator
+          .subscribe("annotationViewerShown", function (viewer) {
+            for (var i in viewer.annotations) {
+            	if (viewer.annotations[i].readonly) {
+            		$(viewer.element).find(".annotator-edit").remove();
+            		$(viewer.element).find(".annotator-delete").remove();
+				}
+			}
+            console.info("The annotation: %o has just been created!", viewer)
+          })
+    }
+  };
+};
+</script>
+        <script>
+function snapSelectionToWord() {
+    var sel;
+
+    // Check for existence of window.getSelection() and that it has a
+    // modify() method. IE 9 has both selection APIs but no modify() method.
+    if (window.getSelection && (sel = window.getSelection()).modify) {
+        sel = window.getSelection();
+        if (!sel.isCollapsed) {
+
+            // Detect if selection is backwards
+            var range = document.createRange();
+            range.setStart(sel.anchorNode, sel.anchorOffset);
+            range.setEnd(sel.focusNode, sel.focusOffset);
+            var backwards = range.collapsed;
+            range.detach();
+
+            // modify() works on the focus of the selection
+            var endNode = sel.focusNode, endOffset = sel.focusOffset;
+            sel.collapse(sel.anchorNode, sel.anchorOffset);
+
+            var direction = [];
+            if (backwards) {
+                direction = ['backward', 'forward'];
+            } else {
+                direction = ['forward', 'backward'];
+            }
+
+            sel.modify("move", direction[0], "character");
+            sel.modify("move", direction[1], "word");
+            sel.extend(endNode, endOffset);
+            sel.modify("extend", direction[1], "character");
+            sel.modify("extend", direction[0], "word");
+        }
+    } else if ( (sel = document.selection) && sel.type != "Control") {
+        var textRange = sel.createRange();
+        if (textRange.text) {
+            textRange.expand("word");
+            // Move the end back to not include the word's trailing space(s),
+            // if necessary
+            while (/\s$/.test(textRange.text)) {
+                textRange.moveEnd("character", -1);
+            }
+            textRange.select();
+        }
+    }}
+</script>
+
+    {% endblock %}
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+ {% block other %}
+
+  {% endblock %}
+
+    {% block scripts %}
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();
+});
+</script>
+  {% endblock %}
+   {% endblock %}
+  </head>
+
+  <body>
+  {% block body %}
+{% block modals %}
+{% endblock %}
+
+  <nav class="navbar navbar-default" id="upper-nav">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+
+      <a class="navbar-brand" href="/"><img alt="Brand" src="{% static "img/KRUT2.png" %}"></a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+          {% block upperbar %}
+        <li><a href="/learner_corpus">Main</a></li>
+        <li><a href="/learner_corpus/search">Search</a></li>
+          <li><a href="/learner_corpus/help">Help</a></li>
+          <li><a href="/learner_corpus/stats">Statistics</a></li>
+          {% endblock %}
+      </ul>
+
+
+    <div class="navbar-form navbar-right">
+        <div class="btn-group-vertical">
+          <button type="button" class="btn btn-xs btn-default">RU</button>
+          <button type="button" class="btn btn-xs btn-default">EN</button>
+        </div>
+          <a href='http://web-corpora.net/learner_corpus/brat' type="button" class="btn btn-default">Sign in</a>
+      </div>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+  <div class="container-fluid">
+
+{% block leftbar %}
+
+{% endblock %}
+            {% block col_parameter %}
+          <div class="col-sm-12">
+          {% endblock col_parameter %}
+              <div class="page-header">
+                  <h1> {% block content_header %} My amazing corpus {% endblock content_header %}    </h1>
+              </div>
+ {% block content %}
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut laoreet luctus nisl vitae malesuada. Mauris porta at mauris sed fermentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent rutrum ipsum non pharetra consequat. Nulla facilisi. Integer rutrum turpis nulla. Suspendisse potenti. Maecenas laoreet efficitur viverra. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas sed mollis erat, vitae pellentesque justo. Etiam in ex vitae enim convallis aliquam. Pellentesque purus dolor, euismod sit amet mi non, venenatis rhoncus diam.</p>
+
+              <p>Donec lobortis maximus turpis ac bibendum. Fusce lobortis nulla vel mauris interdum aliquet id non ante. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed blandit, dui hendrerit blandit consectetur, nisi metus molestie quam, at sagittis justo odio eu augue. Phasellus luctus tincidunt massa porta viverra. Ut a velit bibendum, sagittis dui vel, scelerisque dolor. Aenean rutrum eu risus sit amet suscipit. Mauris vel tortor finibus, eleifend est ac, mattis diam. Cras facilisis malesuada justo, non congue dolor blandit vel. Maecenas non justo at dolor venenatis rutrum eget et eros. Nunc pellentesque tristique scelerisque.</p>
+
+              <p>Vestibulum lacinia accumsan libero in tristique. Duis venenatis sed eros at molestie. In hac habitasse platea dictumst. Sed quis ex sed lacus congue dictum. Duis pretium faucibus dapibus. Proin facilisis, nisl non laoreet auctor, lectus ex vestibulum urna, vel mollis lacus ligula vel ante. Duis massa lectus, vehicula sit amet maximus ac, fringilla a magna.</p>
+
+              <p>Quisque in ante eget nunc posuere vestibulum non quis magna. Aliquam massa ligula, porttitor ac felis a, aliquet euismod libero. Suspendisse ut massa lorem. Nulla nec purus ultricies, rhoncus enim nec, viverra erat. In non diam tincidunt, tristique lectus a, imperdiet nisi. Suspendisse fringilla urna est, quis volutpat sapien finibus sed. Vestibulum eros nisi, rutrum in justo varius, pellentesque laoreet quam. Pellentesque ut dolor quis leo euismod egestas eu ut ex.
+</p>
+
+              <p>Suspendisse sem nulla, accumsan in ornare a, dapibus vel tortor. Suspendisse tempor orci at lectus sagittis finibus. Aenean mollis lorem vitae tortor tempor mattis. Ut at urna aliquam, iaculis elit vitae, tempus nibh. Vivamus mollis elit vel molestie aliquam. Nunc id elementum eros. Donec nec pellentesque mi, ac ullamcorper nisi. Nulla sodales suscipit volutpat. Vestibulum eget arcu ut risus volutpat dictum sit amet vel augue.</p>
+              
+              <p>Maecenas a elit interdum tortor sagittis commodo nec nec purus. Vivamus ac porttitor dolor. Mauris est mi, fermentum eget odio at, placerat scelerisque nunc. Morbi vel lacinia ante, eget cursus sapien. Nunc faucibus viverra tempus. Integer egestas semper ultrices. Quisque pellentesque libero eu lectus ullamcorper feugiat. Aliquam at tortor eu lacus elementum lobortis quis non dolor. Nullam scelerisque velit ex, ultricies viverra elit pulvinar eu. Vivamus vel tristique mi, vitae aliquet tellus. Nulla facilisi. Duis mauris tellus, facilisis sed tellus at, euismod viverra lacus. Ut eleifend enim nibh, et egestas sapien faucibus eu. Pellentesque malesuada quam elit. Nunc sagittis elit non nibh iaculis, non semper erat aliquet. Duis in mi eget odio tincidunt posuere.</p>
+
+              <p>Nullam ut lectus sed ligula tristique placerat at viverra tellus. Curabitur ut ex vitae ante condimentum vehicula. Suspendisse nec convallis sem, et malesuada orci. Donec scelerisque diam metus, et dapibus metus tincidunt ut. Aliquam maximus tempor est, mattis gravida tellus feugiat sit amet. Nulla in est leo. Aenean feugiat id libero a sollicitudin. Praesent aliquam turpis sit amet erat pulvinar mollis. Ut purus sem, consequat non rutrum sed, maximus sed dui. Suspendisse vitae ornare leo. Donec at aliquam dui, nec pharetra leo.</p>
+
+              <p>Proin quam metus, fringilla sit amet ultrices nec, placerat at nisl. Phasellus eu nisl non mauris tempor tempor. Nulla rhoncus rutrum ante quis feugiat. Nunc tortor nulla, malesuada id magna et, imperdiet pharetra elit. Maecenas vitae quam ac ligula sagittis accumsan. Quisque sit amet velit nec felis tincidunt gravida. In velit metus, tempor malesuada porttitor nec, luctus non dui. Morbi ut orci vel enim suscipit ultricies ac in urna. Vestibulum quis neque a est egestas egestas et quis orci. Mauris id metus semper, tempus lacus vel, ornare erat. Nulla imperdiet feugiat vulputate.</p>
+
+              <p>Nam elit lacus, imperdiet ac neque ut, scelerisque lacinia ex. Aliquam a arcu vitae ipsum scelerisque hendrerit ornare eget massa. Duis rhoncus vestibulum egestas. Phasellus vitae erat non mi consectetur dapibus quis ac justo. Donec dui magna, vehicula quis diam vitae, aliquam vestibulum elit. Quisque mattis, sem vel lobortis cursus, velit nisi fermentum sapien, ut auctor ligula augue sit amet ipsum. Cras nec dui volutpat, bibendum risus vitae, blandit nunc. Nunc nisl elit, dapibus ac quam et, pellentesque fermentum lacus. Nullam sed nulla sem. Nullam sagittis justo tristique lorem eleifend, ut finibus ipsum pellentesque. Pellentesque sagittis id erat mattis ullamcorper. Donec molestie tempus eros eu egestas.</p>
+{% endblock content %}
+          </div>
+      </div>
+
+
+
+      <footer class="footer">
+      <div class="container">
+          <p class="navbar-text navbar-left text-muted">{% block footer %} Department of Linguistics NRU HSE 2015 (c) {% endblock footer %}</p>
+      </div>
+    </footer>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static "js/jquery.js" %}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+  <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+    try {
+    var pageTracker = _gat._getTracker("UA-15769745-1");
+    pageTracker._trackPageview();
+    } catch(err) {}
+</script>
+  {% endblock body %}
+  </body>
+
+</html>
+

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load dajaxice_templatetags %}
+{% load staticfiles %}
+{% load i18n %}
+{% load annotator_tags %}
+{% block title %}{% trans 'Russian Learner Corpus Annotation' %}{% endblock %}
+{% block meta_content %}{% trans 'My annotations' %}{% endblock %}
+
+{% block scripts %}
+{% for i in j %}
+     <script>
+    {{ i|safe }}
+    </script>
+    {% endfor %}
+
+{% endblock %}
+    {% block upper-row %}
+            {% endblock %}
+
+    {% block other %}
+
+ <link rel="stylesheet" href="{% static "css/custom-theme/jquery-ui-1.9.2.custom.css" %}" />
+  <script src="{% static "js/jquery-ui-1.9.2.custom.min.js" %}"></script>
+        <style>
+        .ui-autocomplete { position: absolute; cursor: default;z-index:30000 !important;}
+        </style>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".token[title*='bastard']").css( "text-decoration", "underline" );
+});
+ function search(id) {
+$.get("/RLC/document-annotations/get_correction_by_id/"+id,
+                    function (data) {
+                        $("#"+id+"+").html(data[1]);
+                        $("#second"+id).html(data[0]);
+                    });
+            return false;
+        }
+</script>
+
+    {% endblock %}
+
+{% block content_header %}{% trans 'Annotate text' %}{% endblock content_header %}
+{% block content %}
+
+     <div class="col-md-12">
+	<div class="row">
+            {% for sent in sents %}
+                <span id="{{ sent.id }}" class="original_sentence" contenteditable="false">
+                    {{sent.tagged|safe|linebreaksbr}}
+                </span>
+                <span class="correct_sentence"  id = "{{ sent.id }}+" contenteditable="false">
+                    {{sent.correct|safe|linebreaksbr}}
+                </span><br>
+                <span class="correct_sentence"  id = "second{{ sent.id }}" contenteditable="false">
+                    {{sent.correct|safe|linebreaksbr}}
+                </span><br><br>
+            {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

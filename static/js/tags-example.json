@@ -1,0 +1,65 @@
+[
+  {
+    "value": "orpho"
+  },
+  {
+    "value": "gov"
+  },
+  {
+    "value": "Cs"
+  },
+  {
+    "value": "typo"
+  },
+  {
+    "value": "graph"
+  },
+  {
+    "value": "phon"
+  },
+  {
+    "value": "morph"
+  },
+  {
+    "value": "coord"
+  },
+  {
+    "value": "asp"
+  },
+  {
+    "value": "constr"
+  },
+  {
+    "value": "lex"
+  },
+  {
+    "value": "calque"
+  },
+  {
+    "value": "GraphCalque"
+  },
+  {
+    "value": "MorphCalque"
+  },
+  {
+    "value": "ConstrCalque"
+  },
+  {
+    "value": "LexCalque"
+  },
+  {
+    "value": "SyntaxCalque"
+  },
+  {
+    "value": "qsicalque"
+  },
+  {
+    "value": "not-clear"
+  },
+  {
+    "value": "syntax"
+  },
+  {
+    "value": "re"
+  }
+]

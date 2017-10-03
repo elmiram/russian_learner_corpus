@@ -1,0 +1,8 @@
+# User-specific stuff:
+.idea/
+
+# Sensitive stuff
+.secure.settings.json
+
+# Django related
+*.mo

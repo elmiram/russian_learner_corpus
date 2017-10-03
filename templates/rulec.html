@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block links %}
+          <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link href="{% static "css/styles.css" %}" rel="stylesheet">
+  {% endblock %}
+{% block upper-row %}
+<div id="masthead">
+  <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <h1 id="top">RULEC
+            <p class="lead">RLC Subcorpus</p>
+          </h1>
+        </div>
+        <div class="col-md-5">
+        	      	<img align="right" src="{% static "img/placeholder.png" %}" class="img-responsive">
+
+        </div>
+      </div>
+
+  </div><!--/container-->
+</div><!--/masthead-->
+{% endblock %}
+<!--main-->
+<div class="container">
+    {% block content %}
+	<div class="row">
+      <!--left-->
+      <div class="col-md-3" id="leftCol">
+        <ul class="nav nav-stacked" id="sidebar">
+          <li><a href="#sec0">About</a></li>
+          <li><a href="#sec1">What is RULEC?</a></li>
+          <li><a href="#sec2">Metadata</a></li>
+          <li><a href="#sec3">Using RULEC</a>
+            <li><a href="#sec4">Links</a></li>
+            <li><a href="#top">Back to top</a></li>
+        </ul>
+      </div><!--/left-->
+
+      <!--right-->
+      <div class="col-md-9">
+          <hr id="sec0">
+        <h2 >About</h2>
+        <p>The Russian Learner Corpus of Academic Writing, or RULEC, is a product of collaborative work between language and pedagogy researchers Olesya Kisselev and Anna Alsufieva of Portland State University and <a href="http://www.hse.ru/org/persons/26736782">Ekaterina Rakhilina</a> and <a href="http://www.hse.ru/org/persons/34257708">Timofey Arkhangelskiy</a> of <a href="http://www.hse.ru/">National Research University Higher School of Economics</a>. RULEC is a longitudinal corpus of Russian learner language that includes written papers produced by advanced American students of Russian as a Foreign or Heritage Language. The corpus represents a new tool for those interested in the study of linguistics, Second Language Acquisition, and language pedagogy.</p>
+
+          <hr id="sec1">
+        <h2 >What is RULEC?</h2>
+        <p>The materials for RULEC were collected over a period of 4&nbsp;years from students studying Russian at an American university in a special program that was designed for advanced-level Second Language&nbsp;(L2) or Heritage Language&nbsp;(HL) speakers of Russian. The corpus is relatively small: the texts were authored by 36 learners: 17&nbsp;of&nbsp;the&nbsp;36 are mainstream American learners who started learning Russian as adults; 19&nbsp;are heritage speakers of Russian, born in a Russian-speaking country and brought to the US as children or born in the US and raised in a Russian-speaking family. Each author, however, is well-presented in the body of the corpus. RULEC now includes approximately 3,800 written papers ranging from a short paragraph to 8-page research papers (no grammatical or lexical exercises are included in the corpus).</p>
+
+        <hr id="sec2">
+
+
+        <h2 >Metadata</h2>
+        <p>Although RULEC was originally compiled chiefly with local needs in mind, the richness of design criteria should allow for a variety of possible research questions and analyses. The following meta-categories are assigned to each text:</p>
+<ol>
+<li> student’s name (pseudonym),
+<li> gender,
+<li> language background and language experience of the student (L2 or HL),
+<li> student’s linguistic level (established through external tests),
+<li> time stamp (week and academic year when the paper was written),
+<li> time limit under which the paper was written (timed or non-timed),
+<li> text type (one paragraph or a long research paper),
+<li> text function (e.g. narration, argumentation), and
+<li> whether a paper was written individually or in a group.
+</ol>
+
+<p>These categories are reflected in the Header Identification Box (Header ID) of each text in the corpus. It is possible to automatically create sub-corpora based in these meta-categories.</p>
+          <p>All words in RULEC are assigned morphological tags that contain morphological information such as part of speech, gender, case, aspect. In case when the word is misspelled, the tag will also contain the mark “bastard” (i.e. irregular form). The corpus interface allows for search by grammatical and lexical categories.</p>
+
+        <hr id="sec3">
+
+        <h2 >Using RULEC</h2>
+        <p>As mentioned above, RULEC has a small number of authors; although this may preclude the researchers from drawing generalized conclusions about an “average” advanced learner of Russian as a Foreign or Heritage Language, the relatively large number of works representing each learner may become an advantage for longitudinal studies, ethnographic studies or studies that require close tracking of interlanguage development. Moreover, any insights drawn from the analyses of RULEC materials may serve as hypotheses for studies on larger corpora. RULEC is a versatile resource and may be used in a variety of studies and for a variety of purposes.</p>
+
+        <hr id="sec4">
+
+          <h2 >Links</h2>
+          <ul>
+<li><a href='http://www.ruscorpora.ru/en/corpora-intro.html' target='_blank'>What is the Corpus?</a> - see the introduction page on the website of Russian National Corpus</li>
+<li>Learner corpora</li>
+<ul><li><a href='http://web-corpora.net/RussianLearnerCorpus/search/' target='_blank'>Russian Learner Corpus </a></li>
+
+<li><a href='http://rus-ltc.org/' target='_blank'>Russian Learner Translator Corpus</a></li>
+
+<li><a href='http://realec.org/' target='_blank'>Russian Error-Annotated Learner English Corpus </a></li></ul>
+</ul>
+
+        </div><!--/right-->
+  	</div><!--/row-->
+    {% endblock content%}
+</div><!--/container-->

@@ -1,0 +1,53 @@
+/* UPPER NAVIGATION BAR - AJUST PICTURE, HEIGHT, PADDING
+.navbar-nav>li>a { padding-top: 30px; padding-bottom: 25px; }
+.navbar-form { padding-top: 10px; padding-bottom: 6px; }
+.navbar-brand {
+padding: 0px 15px;
+}
+*/
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 70px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: rgba(215, 217, 255, 0.60);
+}
+
+form .well {
+    font-size: 100%;
+    padding-top: 0.4%;
+    padding-bottom: 0.4%;
+    margin-bottom: 0.4%;
+}
+
+
+form .form-group {
+    margin-bottom: 2%;
+}
+
+
+
+#search {
+    margin-top: 0.8%;
+}
+
+.correct_sentence {
+    font-size: 80%;
+    color: grey;
+}
+
+.correction {
+    color: darkblue;
+}

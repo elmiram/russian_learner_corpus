@@ -1,0 +1,433 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load annotator_tags %}
+
+{% block title %}
+    {% trans 'Russian Learner Corpus Statistics' %}
+
+
+{% endblock %}
+{% block meta_content %}
+    {% trans 'Statistics' %}
+{% endblock %}
+
+{% block other %}
+    <script>
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+    $(document).ready(function(){
+$( "#showbutton" ).click(function() {
+  $( "#annotatorlist" ).toggle();
+});
+            $("#allpersons").click(function () {
+               var checkboxes = $(".Person");
+                checkboxes.prop('checked', function(){
+                    if ($(this).prop('checked')){return false}
+                    else {return true}
+                });
+    });
+                $("#practicepersons").click(function () {
+    $(".Practice").prop('checked', function(){
+                    if ($(this).prop('checked')){return false}
+                    else {return true}
+                });
+});
+
+        var cookie_annot = getCookie("RLC_annotated");
+        var cookie_notannot = getCookie("RLC_not_annotated");
+        var cookie_checked = getCookie("RLC_checked");
+
+        if (cookie_annot != "") {$("#annotated").scrollTop(cookie_annot);}
+        $("#annotated").scroll(function() {
+           var scrollPos = $("#annotated").scrollTop();
+           setCookie("RLC_annotated", scrollPos, 1)
+        });
+
+        if (cookie_notannot != "") {$("#not_annotated").scrollTop(cookie_notannot);}
+        $("#not_annotated").scroll(function() {
+           var scrollPos2 = $("#not_annotated").scrollTop();
+           setCookie("RLC_not_annotated", scrollPos2, 1)
+        });
+
+        if (cookie_checked != "") {$("#checked").scrollTop(cookie_checked );}
+        $("#checked").scroll(function() {
+           var scrollPos3 = $("#checked").scrollTop();
+           setCookie("RLC_checked", scrollPos3, 1)
+        });
+
+    });
+</script>
+{% endblock %}
+{% block upper-row %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans 'List of documents for annotation' %}</h1>
+
+    <div class="row">
+    <form method="get">
+    <p>{% trans 'Choose language:' %}
+    <input class="hidden" name="language" value="language">
+        {% for lang in langs %}
+        <label class="checkbox-inline">
+
+          <input type="checkbox" name="{{ lang.0 }}" value=""> {{ lang.1 }}
+        </label>
+        {% endfor %}
+        <input type="submit" class="btn btn-xs btn-primary" value="Filter"></p>
+
+    </form>
+
+    </div>
+<span id="showbutton" class="label label-default" style="margin-bottom: 10px">Показать список разметчиков</span>
+    <div class="row">
+
+    <form method="get">
+
+   <p id="annotatorlist" style="display: none;border-radius: 5px;border: 2px solid lightgrey">
+       {% trans 'Choose annotator:' %} <span id="allpersons" class="label label-default">Выделить всех</span> <span id="practicepersons" class="label label-default">Выделить практикантов</span><br>
+
+   <input class="hidden" name="user" value="user">
+        {% for u in users %}
+        <label class="checkbox-inline">
+          <input type="checkbox" class="Person {% if u|has_group:"STAFF"%}STAFF{% endif %} {% if u|has_group:"Annotator"%}Annotator{% endif %} {% if u|has_group:"Практиканты"%}Practice{% endif %}" name="{{ u.username }}" value=""> {{ u.last_name }} {{ u.first_name }}
+        </label>
+        {% endfor %}
+        <input type="submit" class="btn btn-xs btn-primary" value="Filter"></p>
+
+    </form>
+
+    </div>
+<div class="row" style="margin-top: 10px">
+<div class="col-md-4">
+    <div class="panel panel-primary">
+    <div class="panel-heading">{% trans 'Not annotated' %}</div>
+      <div class="panel-body" style="min-height: 450px; max-height: 450px; overflow-y: scroll;" id="not_annotated">
+  
+{#      <div>#}
+{#        <a href=".toggle-folder-1" data-toggle="collapse" class="label label-warning">#}
+{#          Annotator_Agreement#}
+{#        </a>#}
+{#        <ul class="toggle-folder-1 collapse list-unstyled">#}
+{#          <!--<li> folder item 1</li>-->#}
+{#          <!--</li> folder item 2</li>-->#}
+{#            {% for doc in docs %}#}
+{#                {% if not doc.annotated %}#}
+{#                    {% if doc.subcorpus == 'RULEC' %}#}
+{#                    <li>#}
+{#                        {{ doc.id }}. <a href="document/{{ doc.id }}/edittest"> {{ doc }} </a>#}
+{#                    </li>#}
+{#                {% endif %}#}
+{#                {% endif %}#}
+{#        {% endfor %}#}
+{#        </ul>#}
+{##}
+{#      </div>#}
+
+      <div>
+        <a href=".toggle-folder-2" data-toggle="collapse"  class="label label-warning">
+          RULEC
+        </a>
+        <ol class="toggle-folder-2 collapse in">
+            {% for doc in docs %}
+                {% if not doc.annotated %}
+                    {% if doc.subcorpus == 'RULEC' %}
+                    <li>
+                        {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                    </li>
+                {% endif %}
+                {% endif %}
+        {% endfor %}
+        </ol>
+      <br><a href=".toggle-folder-3" data-toggle="collapse"  class="label label-warning">
+          HSE
+        </a>
+        <ol class="toggle-folder-3 collapse in">
+            {% for doc in docs %}
+                {% if not doc.annotated %}
+                   {% if doc.subcorpus == 'HSE' %}
+                    <li>
+                        {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                    </li>
+                {% endif %}
+                {% endif %}
+        {% endfor %}
+        </ol>
+      <br><a href=".toggle-folder-4" data-toggle="collapse"  class="label label-warning">
+          UNICE
+        </a>
+      <ol class="toggle-folder-4 collapse in">
+            {% for doc in docs %}
+                {% if not doc.annotated %}
+                    {% if doc.subcorpus == 'UNICE' %}
+                    <li>
+                        {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+        {% endfor %}
+        </ol>
+      <br><a href=".toggle-folder-5" data-toggle="collapse"  class="label label-warning">
+          FIN
+        </a>
+          <ol class="toggle-folder-5 collapse in">
+                {% for doc in docs %}
+                    {% if not doc.annotated %}
+                        {% if doc.subcorpus == 'FIN' %}
+                            {% if request.user|has_group:"Fin" %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                                {% endif %}
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
+      <br><a href=".toggle-folder-6" data-toggle="collapse"  class="label label-warning">
+          BERLIN
+        </a>
+      <ol class="toggle-folder-6 collapse in">
+                {% for doc in docs %}
+                    {% if not doc.annotated %}
+                        {% if doc.subcorpus == 'BERLIN' %}
+                            {% if request.user|has_group:"Berlin" %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                                {% endif %}
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
+        <ol>
+            {% for doc in docs %}
+                {% if not doc.annotated %}
+                   {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE' and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN'%}
+                    <li>
+                        {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                    </li>
+                {% endif %}
+                {% endif %}
+        {% endfor %}
+        </ol>
+      </div>
+
+      </div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="panel panel-primary">
+    <div class="panel-heading">{% trans 'Annotated, not checked' %}</div>
+      <div class="panel-body" style="min-height: 450px; max-height: 450px; overflow-y: scroll;"  id="annotated">
+          <div>
+            <a href=".toggle-folder-2-1" data-toggle="collapse" class="label label-warning">
+              RULEC
+            </a>
+            <ol class="toggle-folder-2-1 collapse in">
+              <!--<li> folder item 21</li>-->
+              <!--</li> folder item 22</li>-->
+                {% for doc in docs %}
+                    {% if doc.annotated and not doc.checked %}
+                        {% if doc.subcorpus == 'RULEC' %}
+                        <li>
+                            {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}">{{ doc }} </a>
+                        </li>
+                    {% endif %}{% endif %}
+                {% endfor %}
+            </ol>
+          <br><a href=".toggle-folder-2-2" data-toggle="collapse" class="label label-warning">
+              HSE
+            </a>
+            <ol class="toggle-folder-2-2 collapse in">
+              <!--<li> folder item 21</li>-->
+              <!--</li> folder item 22</li>-->
+                {% for doc in docs %}
+                    {% if doc.annotated and not doc.checked %}
+                        {% if doc.subcorpus == 'HSE' %}
+                        <li>
+                            {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}">{{ doc }} </a>
+                        </li>
+                    {% endif %}{% endif %}
+                {% endfor %}
+            </ol>
+          <br><a href=".toggle-folder-4-2" data-toggle="collapse"  class="label label-warning">
+          UNICE
+        </a>
+      <ol class="toggle-folder-4-2 collapse in">
+            {% for doc in docs %}
+                {% if doc.annotated  and not doc.checked  %}
+                    {% if doc.subcorpus == 'UNICE' %}
+                    <li>
+                        {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+        {% endfor %}
+        </ol>
+      <br><a href=".toggle-folder-5-2" data-toggle="collapse"  class="label label-warning">
+          FIN
+        </a>
+          <ol class="toggle-folder-5-2 collapse in">
+                {% for doc in docs %}
+                    {% if doc.annotated  and not doc.checked %}
+                        {% if doc.subcorpus == 'FIN' %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
+      <br><a href=".toggle-folder-6-2" data-toggle="collapse"  class="label label-warning">
+          BERLIN
+        </a>
+      <ol class="toggle-folder-6-2 collapse in">
+                {% for doc in docs %}
+                    {% if doc.annotated  and not doc.checked %}
+                        {% if doc.subcorpus == 'BERLIN' %}
+                            {% if request.user|has_group:"Berlin" %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                                {% endif %}
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
+          <ol>
+              <!--<li> folder item 21</li>-->
+              <!--</li> folder item 22</li>-->
+                {% for doc in docs %}
+                    {% if doc.annotated and not doc.checked %}
+                        {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE'  and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN' %}
+                        <li>
+                            {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}">{{ doc }} </a>
+                        </li>
+                    {% endif %}{% endif %}
+                {% endfor %}
+            </ol>
+          </div>
+
+      </div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="panel panel-primary">
+    <div class="panel-heading">{% trans 'Annotated, checked' %}</div>
+      <div class="panel-body" style="min-height: 450px; max-height: 450px; overflow-y: scroll;"  id="checked">
+                  <a href=".toggle-folder-3-1" data-toggle="collapse" class="label label-warning">
+              RULEC
+            </a>
+            <ol class="toggle-folder-3-1 collapse in">
+              <!--<li> folder item 21</li>-->
+              <!--</li> folder item 22</li>-->
+                {% for doc in docs %}
+                    {% if doc.checked %}
+                        {% if doc.subcorpus == 'RULEC' %}
+                        <li>
+                            {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}">{{ doc }} </a>
+                        </li>
+                    {% endif %}{% endif %}
+                {% endfor %}
+            </ol>
+          <br><a href=".toggle-folder-2-3" data-toggle="collapse" class="label label-warning">
+              HSE
+            </a>
+            <ol class="toggle-folder-2-3 collapse in">
+              <!--<li> folder item 21</li>-->
+              <!--</li> folder item 22</li>-->
+                {% for doc in docs %}
+                    {% if  doc.checked %}
+                        {% if doc.subcorpus == 'HSE' %}
+                        <li>
+                            {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}">{{ doc }} </a>
+                        </li>
+                    {% endif %}{% endif %}
+                {% endfor %}
+            </ol>
+          <br><a href=".toggle-folder-4-3" data-toggle="collapse"  class="label label-warning">
+          UNICE
+        </a>
+      <ol class="toggle-folder-4-3 collapse in">
+            {% for doc in docs %}
+                {% if doc.checked  %}
+                    {% if doc.subcorpus == 'UNICE' %}
+                    <li>
+                        {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+        {% endfor %}
+        </ol>
+      <br><a href=".toggle-folder-5-3" data-toggle="collapse"  class="label label-warning">
+          FIN
+        </a>
+          <ol class="toggle-folder-5-3 collapse in">
+                {% for doc in docs %}
+                    {% if  doc.checked %}
+                        {% if doc.subcorpus == 'FIN' %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
+      <br><a href=".toggle-folder-6-3" data-toggle="collapse"  class="label label-warning">
+          BERLIN
+        </a>
+      <ol class="toggle-folder-6-3 collapse in">
+                {% for doc in docs %}
+                    {% if doc.checked %}
+                        {% if doc.subcorpus == 'BERLIN' %}
+                            {% if request.user|has_group:"Berlin" %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                                {% endif %}
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
+          <ol>
+              <!--<li> folder item 21</li>-->
+              <!--</li> folder item 22</li>-->
+                {% for doc in docs %}
+                    {% if  doc.checked %}
+                        {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE'  and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN' %}
+                        <li>
+                            {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}">{{ doc }} </a>
+                        </li>
+                    {% endif %}{% endif %}
+                {% endfor %}
+            </ol>
+      </div>
+</div>
+</div>
+</div>
+
+
+
+{% endblock content %}

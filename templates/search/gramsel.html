@@ -1,0 +1,242 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% trans 'GRAMMATICAL TAGS' %}</title>
+    <script src="{% static "js/jquery.js" %}"></script>
+    <link href="{% static "css/bootstrap.flatly.css" %}" rel="stylesheet">
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+          <link href="{% static "css/style.css" %}" rel="stylesheet">
+          <link href="{% static "css/styles.css" %}" rel="stylesheet">
+	<script language="JavaScript" src="{% static "js/gramsel.js" %}"></script>
+	<script language="JavaScript" src="{% static "js/urlprocessor.js" %}"></script>
+
+</head>
+<body onLoad="InitWindow()">
+<div class="container">
+<div class="row" style="font-size: smaller">
+
+  <form name="gramForm" id="gramForm" action="">
+      <div class="row">
+        <div class="col-sm-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title activeA  gr_inv grammar" onClick="inverse('gender')">{% trans 'Gender' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="gender" value="m" id="genderm">&nbsp;<label for="genderm">{% trans 'masculine' %}</label><br/>
+<input type="checkbox" name="gender" value="n" id="gendern">&nbsp;<label for="gendern">{% trans 'neuter' %}</label><br/>
+<input type="checkbox" name="gender" value="f" id="genderf">&nbsp;<label for="genderf">{% trans 'feminine' %}</label><br/>
+<input type="checkbox" name="gender" value="mf" id="gendermf">&nbsp;<label for="gendermf">{% trans 'common' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+            <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title gr_inv activeA grammar" onClick="inverse('case')">{% trans 'Case' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="case" value="nom" id="casenom">&nbsp;<label for="casenom">{% trans 'nominative' %}</label><br/>
+<input type="checkbox" name="case" value="acc" id="caseacc">&nbsp;<label for="caseacc">{% trans 'accusative' %}</label><br/>
+<input type="checkbox" name="case" value="dat" id="casedat">&nbsp;<label for="casedat">{% trans 'dative' %}</label><br/>
+<input type="checkbox" name="case" value="gen" id="casegen">&nbsp;<label for="casegen">{% trans 'genitive' %}</label><br/>
+<input type="checkbox" name="case" value="ins" id="caseins">&nbsp;<label for="caseins">{% trans 'instrumental' %}</label><br/>
+<input type="checkbox" name="case" value="loc" id="caseloc">&nbsp;<label for="caseloc">{% trans 'locative' %}</label><br/>
+<input type="checkbox" name="case" value="loc2" id="caseloc2">&nbsp;<label for="caseloc2">{% trans 'locative 2' %}</label><br/>
+<input type="checkbox" name="case" value="gen2" id="casegen2">&nbsp;<label for="casegen2">{% trans 'genitive 2' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+            <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title activeA grammar" onClick="inverse('compform')">{% trans 'Degree / Adj. form' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="compform" value="comp" id="compformcomp">&nbsp;<label for="compformcomp">{% trans 'comparative' %}</label><br/>
+<input type="checkbox" name="compform" value="comp2" id="compformcomp2">&nbsp;<label for="compformcomp2">{% trans 'comparative 2' %}</label><br/>
+<input type="checkbox" name="compform" value="supr" id="compformsupr">&nbsp;<label for="compformsupr">{% trans 'superlative' %}</label><br/>
+<input type="checkbox" name="compform" value="plen" id="compformplen">&nbsp;<label for="compformplen">{% trans 'full form' %}</label><br/>
+<input type="checkbox" name="compform" value="brev" id="compformbrev">&nbsp;<label for="compformbrev">{% trans 'short form' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+          </div>
+          <div class="col-sm-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="gr_inv panel-title activeA grammar" onClick="inverse('number')">{% trans 'Number' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="number" value="sg" id="numSG">&nbsp;<label for="numSG">{% trans 'singular' %}</label><br/>
+<input type="checkbox" name="number" value="pl" id="numPL">&nbsp;<label for="numPL">{% trans 'plural' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+            <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title activeA grammar gr_inv" onClick="inverse('animacy')">{% trans 'Animacy' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="animacy" value="anim" id="animANIM">&nbsp;<label for="animANIM">{% trans 'animate' %}</label><br/>
+<input type="checkbox" name="animacy" value="inan" id="animINAN">&nbsp;<label for="animINAN">{% trans 'inanimate' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+          <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title activeA grammar gr_inv"  onClick="inverse('other')">{% trans 'Other features' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="other" value="ciph" id="otherciph">&nbsp;<label for="otherciph">{% trans 'digits' %}</label><br/>
+<input type="checkbox" name="other" value="anom" id="otheranom">&nbsp;<label for="otheranom">{% trans 'anomalous form' %}</label><br/>
+<input type="checkbox" name="other" value="distort" id="otherdistort">&nbsp;<label for="otherdistort">{% trans 'distorted form' %}</label><br/>
+<input type="checkbox" name="other" value="INIT" id="otherINIT">&nbsp;<label for="otherINIT">{% trans 'initials' %}</label><br/>
+<input type="checkbox" name="other" value="abbr" id="otherabbr">&nbsp;<label for="otherabbr">{% trans 'abbreviation' %}</label><br/>
+<input type="checkbox" name="other" value="0" id="other0">&nbsp;<label for="other0">{% trans 'indeclinable' %}</label><br/>
+<input type="checkbox" name="other" value="topon" id="othertopon">&nbsp;<label for="othertopon">{% trans 'toponym' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+          </div>
+      <div class="col-sm-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title gr_inv activeA grammar"  onClick="inverse('mood')">{% trans 'Mood / Verb form' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="mood" value="indic" id="moodindic">&nbsp;<label for="moodindic">{% trans 'indicative' %}</label><br/>
+<input type="checkbox" name="mood" value="imper" id="moodimper">&nbsp;<label for="moodimper">{% trans 'imperative' %}</label><br/>
+<input type="checkbox" name="mood" value="imper2" id="moodimper2">&nbsp;<label for="moodimper2">{% trans 'imperative 2' %}</label><br/>
+<input type="checkbox" name="mood" value="inf" id="moodinf">&nbsp;<label for="moodinf">{% trans 'infinitive' %}</label><br/>
+<input type="checkbox" name="mood" value="partcp" id="moodpartcp">&nbsp;<label for="moodpartcp">{% trans 'participle' %}</label><br/>
+<input type="checkbox" name="mood" value="ger" id="moodger">&nbsp;<label for="moodger">{% trans 'gerund' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+            <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3  title="Invert" class="panel-title activeA grammar gr_inv"  onClick="inverse('tense')">{% trans 'Tense' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="tense" value="praes" id="tensepraes">&nbsp;<label for="tensepraes">{%  trans 'present' %}</label><br/>
+<input type="checkbox" name="tense" value="fut" id="tensefut">&nbsp;<label for="tensefut">{% trans 'future' %}</label><br/>
+<input type="checkbox" name="tense" value="praet" id="tensepraet">&nbsp;<label for="tensepraet">{% trans 'past' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+          <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3  title="Invert" class="panel-title gr_inv activeA grammar"  onClick="inverse('asp')">{% trans 'Aspect' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="asp" value="pf" id="asppf">&nbsp;<label for="asppf">{% trans 'perfective' %}</label><br/>
+<input type="checkbox" name="asp" value="ipf" id="aspipf">&nbsp;<label for="aspipf">{% trans 'imperfective' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+          </div>
+      <div class="col-sm-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title activeA gr_inv grammar"  onClick="inverse('person')">{% trans 'Person' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="person" value="1p" id="person1p">&nbsp;<label for="person1p">{% trans 'first' %}</label><br/>
+<input type="checkbox" name="person" value="2p" id="person2p">&nbsp;<label for="person2p">{% trans 'second' %}</label><br/>
+<input type="checkbox" name="person" value="3p" id="person3p">&nbsp;<label for="person3p">{% trans 'third' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+            <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title gr_inv activeA grammar"  onClick="inverse('form')">{% trans 'Voice' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="form" value="act" id="formact">&nbsp;<label for="formact">{% trans 'active' %}</label><br/>
+<input type="checkbox" name="form" value="pass" id="formpass">&nbsp;<label for="formpass">{% trans 'passive' %}</label><br/>
+<input type="checkbox" name="form" value="med" id="formmed">&nbsp;<label for="formmed">{% trans 'middle' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+          <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title gr_inv activeA grammar" onClick="inverse('tr')">{% trans 'Transitivity' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="tr" value="tran" id="trtran">&nbsp;<label for="trtran">{% trans 'transitive' %}</label><br/>
+<input type="checkbox" name="tr" value="intr" id="trintr">&nbsp;<label for="trintr">{% trans 'intransitive' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+          <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 title="Invert" class="panel-title  gr_inv activeA grammar"  onClick="inverse('names')">{% trans 'Proper names' %}</h3>
+        </div>
+        <div class="panel-body">
+                <div class="gr_group">
+                <div>
+                    <input type="checkbox" name="names" value="famn" id="namesfamn">&nbsp;<label for="namesfamn">{% trans 'family name' %}</label><br/>
+<input type="checkbox" name="names" value="persn" id="namespersn">&nbsp;<label for="namespersn">{% trans 'first name' %}</label><br/>
+<input type="checkbox" name="names" value="patrn" id="namespatrn">&nbsp;<label for="namespatrn">{% trans 'patronymic name' %}</label><br/>
+                </div>
+            </div>
+        </div>
+      </div>
+          </div>
+
+      </div>
+      <div class="row">
+          <div class="col-sm-12">
+      <div class="panel-footer" align="center">
+<input type="button" class="btn btn-default" onClick="collect();return false;" value="{% trans 'OK' %}">
+<input type="button" class="btn btn-default" onClick="document.all.gramForm.reset();return false;" value="{% trans 'Clear' %}">
+<input type="button" class="btn btn-default" onClick="window.close();return false;" value="{% trans 'Cancel' %}">
+
+          </div>
+              </div>
+          </div>
+  </form>
+
+</div>
+    </div>
+</body>
+</html>

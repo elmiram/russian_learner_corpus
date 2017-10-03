@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_language_info for LANGUAGE_CODE as lang %}
+{% block title %}
+   {% trans 'Russian Learner Corpus Statistics' %}
+
+{% endblock %}
+{% block meta_content %}
+    {% trans 'Statistics' %}
+{% endblock %}
+
+{% block upper-row %}
+<div id="masthead">
+  <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 id="top">{% trans 'Statistics' %}
+            <p class="lead">{% trans 'Russian Learner Corpus' %}</p>
+          </h2>
+        </div>
+      </div>
+
+  </div><!--/container-->
+</div><!--/masthead-->
+{% endblock %}
+
+{% block content %}
+
+    {% if request.user.is_authenticated %}
+
+    <div class="row" style="border-radius: 5px;border: 2px solid lightgrey">
+    <div class="col-sm-12">
+    <p class="small" style="color:lightgrey">{% trans 'Вы видите шкалу прогресса, потому что авторизовались в корпусе. Пользователям, которые не прошли авторизацию, шкала прогресса не видна.' %}</p>
+     {% trans 'Annotated documents:' %} {{ progress.0 }}
+    <div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress.1 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress.1 }}%;">
+    {{ progress.1 }}%
+  </div>
+</div>
+        {% trans 'Checked documents:' %}  {{ progress.2 }}
+    <div class="progress">
+ <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress.3 }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;width: {{ progress.3 }}%;">
+    {{ progress.3 }}%
+  </div>
+</div>
+    </div>
+    </div>
+    {% endif%}
+    <div class="col-md-6">
+    <h2>{% trans 'Raw counts' %}</h2>
+<table class="table table-condensed table-hover table-bordered">
+  <tr>
+      <td>{% trans 'Number of texts' %}</td>
+      <td>{{ docs }}</td>
+  </tr>
+    <tr>
+      <td>{% trans 'Number of words' %}</td>
+      <td>{{ words }}</td>
+  </tr>
+    <tr>
+      <td>{% trans 'Number of sentences' %}</td>
+      <td>{{ sents }}</td>
+  </tr>
+    <tr>
+      <td>{% trans 'Number of annotations' %}</td>
+      <td>{{ annot }}</td>
+  </tr>
+</table>
+<h2>{% trans 'Gender counts' %}</h2>
+    <table class="table table-condensed table-hover table-bordered">
+    {% for key, value in gender.iteritems %}
+        <tr>
+      {% if key == '' %}
+            <td>{% trans 'unknown' %} </td>
+        {% endif %}
+        {% if key != '' %}
+            <td>{{ key }} </td>
+        {% endif %}
+      <td>{{ value }}</td>
+  </tr>
+ {% endfor %}
+</table>
+
+    </div>
+
+{#     <div class="col-md-4">#}
+{#    <h2>{% trans 'Genre counts' %}</h2>#}
+{#    <table class="table table-condensed table-hover table-bordered">#}
+{#    {% for key, value in genres.iteritems %}#}
+{#        <tr>#}
+{#        {% if key == '' %}#}
+{#            <td>{% trans 'unknown' %} </td>#}
+{#        {% endif %}#}
+{#        {% if key != '' %}#}
+{#            <td>{{ key }} </td>#}
+{#        {% endif %}#}
+{#      <td>{{ value }}</td>#}
+{#  </tr>#}
+{# {% endfor %}#}
+{#</table>#}
+{##}
+{##}
+{#</div>#}
+
+    <div class="col-md-6">
+        <h2>{% trans 'Language background' %}</h2>
+    <table class="table table-condensed table-hover table-bordered">
+    {% for key, value in lb.iteritems %}
+        <tr>
+        {% if key == '' %}
+            <td>{% trans 'unknown' %} </td>
+        {% endif %}
+        {% if key != '' %}
+            <td>{% trans key %} </td>
+        {% endif %}
+      <td>{{ value }}</td>
+  </tr>
+ {% endfor %}
+</table>
+
+      <h2>{% trans 'Native language' %}</h2>
+    <table class="table table-condensed table-hover table-bordered">
+    {% for key, value in native.iteritems %}
+        <tr>
+        {% if key == '' %}
+            <td>{% trans 'unknown' %} </td>
+        {% endif %}
+        {% if key != '' %}
+            <td>{{ key }} </td>
+        {% endif %}
+      <td>{{ value }}</td>
+  </tr>
+ {% endfor %}
+</table>
+
+    </div>
+{% endblock content %}

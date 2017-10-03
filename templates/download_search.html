@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load annotator_tags %}
+{% block title %}{% trans 'Russian Learner Corpus Download' %}{% endblock %}
+{% block meta_content %}{% trans 'Download' %}{% endblock %}
+
+{% block scripts %}
+{% for i in j %}
+     <script>
+    {{ i|safe }}
+    </script>
+{% endfor %}
+{% endblock %}
+
+{% block upper-row %}{% endblock %}
+
+
+{% block content_header %}{% trans 'Download' %}{% endblock content_header %}
+
+{% block content %}
+
+
+{% trans 'No arguments provided for downloading' %}
+
+{% endblock content %}

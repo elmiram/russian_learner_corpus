@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans 'Russian Learner Corpus News' %}{% endblock %}
+{% block meta_content %}{% trans 'News' %}{% endblock %}
+
+{% block content_header %}{% trans 'News' %}{% endblock content_header %}
+{% block top-name %}
+          {% trans 'News' %}
+          {% endblock %}
+{% block well %}{% endblock %}
+{% block content %}
+   {% for article in articles %}
+     <strong>{{ article.date }}</strong>
+       {% if LANGUAGE_CODE == 'ru' %}
+    <p>{{ article.text_rus | safe}} </p>
+       {% endif %}
+       {% if LANGUAGE_CODE == 'en' %}
+    <p>{{ article.text_eng | safe}} </p>
+       {% endif %}
+    {% endfor %}
+
+{% endblock content %}

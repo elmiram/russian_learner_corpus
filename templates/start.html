@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block links %}
+          <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link href="{% static "css/styles.css" %}" rel="stylesheet">
+  {% endblock %}
+{% block upper-row %}
+<div id="masthead">
+  <div class="container">
+       <div class="row">
+        <div class="col-md-3">
+          <h1 id="top">{% trans "RLC"%}</h1>
+            <p class="lead">{% trans "Russian Learner Corpus"%}</p>
+          </h1>
+        </div>
+		<div class="col-md-9">
+		<div class="well" style="margin-top:21px">
+		<table class="table table-responsive">
+		<tr>
+		<td><h3>{% trans "Russian language in a multilingual world"%}</h3>
+                  <p>{% trans "Section X of April International Academic Conference"%}</p>
+                  <p><a class="btn btn-primary btn-md" href="{% url 'main.static' 'conference' %}" role="button">{% trans "Learn more"%}</a></p></td>
+		<td ><div class="video-head__title"><span>XVIII</span><br>{% trans "April"%} <br>{% trans "International"%} <br>{% trans "Academic"%} <br>{% trans "Conference"%}</div></td>
+		</tr>
+		</table>
+
+		</div>
+
+        </div>
+      </div>
+      </div><!--/container-->
+</div><!--/masthead-->
+{% endblock %}
+<!--main-->
+<div class="container">
+    {% block content %}
+	<div class="row">
+      <!--left-->
+      <div class="col-md-3" id="leftCol">
+        <ul class="nav nav-stacked" id="sidebar">
+        {% if LANGUAGE_CODE == 'ru' %}
+            {% for section in sections %}
+          <li><a href="#sec{{ section.number }}">{{ section.header_rus }}</a></li>
+            {% endfor %}
+        {% endif %}
+        {% if LANGUAGE_CODE == 'en' %}
+            {% for section in sections %}
+          <li><a href="#sec{{ section.number }}">{{ section.header_eng }}</a></li>
+            {% endfor %}
+        {% endif %}
+
+            <li><a href="#top">{% trans "Back to top" %}</a></li>
+
+        </ul>
+      </div><!--/left-->
+
+      <!--right-->
+      <div class="col-md-9">
+          {% if LANGUAGE_CODE == 'ru' %}
+            {% for section in sections %}
+                <hr id="sec{{ section.number }}">
+        <h2 >{{ section.header_rus }}</h2>
+        {{ section.text_rus|safe }}
+            {% endfor %}
+        {% endif %}
+        {% if LANGUAGE_CODE == 'en' %}
+            {% for section in sections %}
+          <hr id="sec{{ section.number }}">
+        <h2 >{{ section.header_eng }}</h2>
+        {{ section.text_eng|safe }}
+            {% endfor %}
+        {% endif %}
+
+
+
+
+        </div><!--/right-->
+  	</div><!--/row-->
+    {% endblock content%}
+</div><!--/container-->

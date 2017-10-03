@@ -1,0 +1,182 @@
+/*
+A Bootstrap 3.1 affix sidebar template
+from http://bootply.com
+
+This CSS code should follow the 'bootstrap.css'
+in your HTML file.
+
+license: MIT
+author: bootply.com
+*/
+
+body {
+ padding-top:50px;
+}
+
+#masthead { 
+ min-height:150px;
+}
+
+#masthead h1 {
+ font-size: 30px;
+ line-height: 1;
+ padding-top:20px;
+}
+
+#masthead h4 {
+ padding-top:20px;
+}
+
+#masthead .well {
+ margin-top:8%;
+}
+
+#masthead .btn-group {
+ margin-top:8%;
+}
+#controls .well {
+ margin-top:0;
+}
+
+
+#masthead img {
+ margin-top:8%;
+}
+
+@media screen and (min-width: 768px) {
+  #masthead h1 {
+    font-size: 50px;
+  }
+}
+
+.navbar-bright {
+ background-color:#111155;
+ color:#fff;
+}
+
+.affix-top,.affix{
+ position: static;
+}
+
+@media (min-width: 979px) {
+  #sidebar.affix-top {
+    position: static;
+  	margin-top:30px;
+  	width:228px;
+  }
+  
+  #sidebar.affix {
+    position: fixed;
+    top:70px;
+    width:228px;
+  }
+}
+
+#sidebar li.active {
+  border:0 #eee solid;
+  border-right-width:5px;
+}
+
+@media (min-width: 979px) {
+  #sidebar.affix-top {
+    position: static;
+  	margin-top:30px;
+  	width:228px;
+  }
+
+  #sidebar.affix {
+    position: fixed;
+    top:70px;
+    width:228px;
+  }
+}
+
+#sidebar li.active {
+  border:0 #eee solid;
+  border-right-width:5px;
+}
+
+/*
+a {
+    color: #003366;
+}
+
+a:hover {
+    color: #0d7bdc;
+}
+
+a:visited {
+    color: #003366;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  color: #0d7bdc;
+}
+
+.label a {
+    color: #ffffff;
+}*/
+span.doctitle {
+    color: #777;
+    border-bottom: 1px dotted;
+}
+
+@media (max-width: 1170px) {
+              .navbar-header {
+                  float: none;
+              }
+              .navbar-left,.navbar-right {
+                  float: none !important;
+              }
+              .navbar-toggle {
+                  display: block;
+              }
+              .navbar-collapse {
+                  border-top: 1px solid transparent;
+                  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+              }
+              .navbar-fixed-top {
+                  top: 0;
+                  border-width: 0 0 1px;
+              }
+              .navbar-collapse.collapse {
+                  display: none!important;
+              }
+              .navbar-nav {
+                  float: none!important;
+                  margin-top: 7.5px;
+              }
+              .navbar-nav>li {
+                  float: none;
+              }
+              .navbar-nav>li>a {
+                  padding-top: 10px;
+                  padding-bottom: 10px;
+              }
+              .collapse.in{
+                  display:block !important;
+              }
+            }
+
+	 .video-head__title {
+		height: 150px;
+		width: 150px;
+		color: black;
+		line-height: 1.2;
+		font-size: 67%;
+		box-sizing: border-box;
+		margin-top: -10px;
+		font-weight: bold;
+		padding: 27px 0 0 47px;
+		font-family: FuturaPTWebDemi, "Helvetica Neue", Arial, sans-serif;
+		background: url(https://conf.hse.ru/f/src/act-card/i/back.png);
+    background-size: 150px 150px;
+    background-repeat: no-repeat;
+		}
+		.video-head__title span {
+    display: inline-block;
+    font-size: 500%;
+    font-family: "Arial Black", Arial, sans-serif;
+    line-height: 1;
+    margin: 0 0 0px -45px;
+}

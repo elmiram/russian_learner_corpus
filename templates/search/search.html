@@ -1,0 +1,453 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block title %}{% trans "Russian Learner Corpus Search" %}{% endblock %}
+{% block meta_content %}{% trans "Search" %}{% endblock %}
+{% block links %}
+
+          <link href="{% static "css/style.css" %}" rel="stylesheet">
+          <link href="{% static "css/styles.css" %}" rel="stylesheet">
+	<script language="JavaScript" src="{% static "js/gramsel.js" %}"></script>
+	<script language="JavaScript" src="{% static "js/urlprocessor.js" %}"></script>
+    <script language="JavaScript" src="{% static "js/mainform.js" %}"></script>
+<script language="JavaScript">
+
+$(function()
+{
+    var forms = 0;
+    $(document).on('click', '.btn-add', function(e)
+    {
+        forms = forms + 1;
+{#        e.preventDefault();#}
+
+        var controlForm = $('.controls div:first'),
+            currentEntry = $(this).parents('.entry:first');
+        var newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+        newEntry.find('input').val('');
+        newEntry.find("#lex"+(forms+1)).attr('id', "lex"+(forms+2));
+        newEntry.find('#getlex').attr('onclick', "getLex("+(forms+2)+")");
+        newEntry.find("#gr"+(forms+1)).attr('id', "gr"+(forms+2));
+        newEntry.find('#getgrm').attr('onclick', "getGrm("+(forms+2)+")");
+        newEntry.find("#err"+(forms+1)).attr('id', "err"+(forms+2));
+        newEntry.find('#geterr').attr('onclick', "getErr("+(forms+2)+")");
+        newEntry.find('#from').val(forms+1);
+        newEntry.find('#to').val(forms+1);
+        if (forms == 1) {$(newEntry.find('.btn-add:last').clone()).appendTo(newEntry.find('.col-sm-2:last'));
+        newEntry.find('.btn-add:first').removeClass('btn-add').addClass('btn-remove')
+            .removeClass('btn-info').addClass('btn-primary')
+            .html('<span class="glyphicon glyphicon-minus"></span>');}
+
+{#        controlForm.find('.entry:last) .btn-add')#}
+{#            .removeClass('btn-add').addClass('btn-remove')#}
+{#            .removeClass('btn-info').addClass('btn-primary')#}
+{#            .html('<span class="glyphicon glyphicon-minus"></span>');#}
+{#        $(newEntry.find('.btn-add:last').clone()).appendTo(controlForm.find('.entry:not(:last) .col-sm-2:last'));#}
+        //controlForm.find('#lex2').id = "lex"+(forms+2);
+        //alert(controlForm.getElementById('lex2'));
+        //controlForm.find('#getlex').onclick = "getLex("+(forms+2)+")";
+    }).on('click', '.btn-remove', function(e)
+    {
+		$(this).parents('.entry:first').remove();
+        forms = forms-1;
+
+{#		e.preventDefault();#}
+		return false;
+	});
+});
+
+
+$( document ).ready(function() {
+    $("#checkAll").click(function () {
+    $(".check").prop('checked', $(this).prop('checked'));
+});
+    $("#checkAllMajor").click(function () {
+    $(".major").prop('checked', $(this).prop('checked'));
+});
+    $('[data-toggle="tooltip"]').tooltip(
+            {"trigger": 'click', "placement":'auto'}
+    );
+});
+
+
+</script>
+
+
+{% endblock %}
+
+
+{% block modals %}
+{% endblock %}
+
+{% block upper-row %}
+    <div id="masthead">
+
+      <form method="get"  target="_blank">
+      <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <h4>{% trans "Exact search" %}</h4>
+
+        <label>
+            <input class="form-control input-sm" type="text" name="exact_word" placeholder="{% trans "Input key words: " %}" size="100%">
+        </label>
+        <p id="search"><input type="submit" class="btn btn-xs btn-default" name="exact_search" value="{% trans "Search" %}"></p>
+
+    <!--</form>-->
+        </div>
+        <div class="col-sm-6">
+                <div class="row">
+        	      	    <div class="btn-group pull-right">
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#subcorpus">{% trans "Specify Subcorpus" %}</button>
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#preferences">{% trans "Display Options" %}</button>
+                            <a class="btn btn btn-default" href="{% url 'main.search' %}" target="_blank">{% trans "Search in New Window" %}</a>
+                        </div>
+                </div>
+              </div>
+        </div>
+    </div>
+{#        </div>#}
+            {% endblock %}
+
+{% block content %}
+    <div class="container">
+<div class="row">
+    <h4>{% trans "Lexico-grammatical search" %}</h4>
+    <div class="controls" id="controls">
+        <div class="wrapper">
+            <div class="well">
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>
+                            {% trans "Wordform" %}<input class="form-control input-sm" type="text" name="wordform[]" placeholder="{% trans "Wordform" %}" size="100%"></label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <a onclick="getLex(1)"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                            {% trans "PoS" %}<input class="form-control input-sm" type="text" id='lex1' name="lex[]" placeholder="{% trans "Part of Speech" %}" size="100%"></label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <a onclick="getGrm(1)"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                            {% trans "Gram" %}<input class="form-control input-sm" type="text"  id='gr1' name="grammar[]" placeholder="{% trans "Grammatical features" %}" size="100%"></label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <a onclick="getErr(1)"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                            {% trans "Errors" %}<input class="form-control input-sm" type="text" id='err1' name="errors[]" placeholder="{% trans "Error tags" %}" size="100%"></label>
+                    </div>
+{#                    <div class="col-sm-2">#}
+{#                        <label>#}
+{##}
+{#                            {% trans "Comment" %}<input class="form-control input-sm" type="text" name="comment[]" placeholder="{% trans "Comment" %}" size="100%"></label>#}
+{#                    </div>#}
+                </div>
+            </div>
+        <div class="entry">
+            <div class="row">
+                <div class="col-xs-3">
+                <div class="form-group">
+                    <label class="sr-only" for="from">{% trans "From" %}</label>
+                    <label class="sr-only" for="to">{% trans "to" %}</label>
+                    <div class="input-group input-group-sm">
+                      <div class="input-group-addon">{% trans "From" %}</div>
+                      <input type="text" class="form-control" id="from" placeholder="1" name="from[]" value='1'>
+                      <div class="input-group-addon">{% trans "to" %}</div>
+                        <input type="text" class="form-control" id="to" placeholder="1" name="to[]" value="1">
+                    </div>
+                  </div>
+                    </div>
+                </div>
+            <div class="well">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label>{% trans "Wordform" %}<input class="form-control input-sm" type="text" name="wordform[]" placeholder="{% trans "Wordform" %}" size="100%"></label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <a id="getlex" onclick="getLex(2)"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                            {% trans "PoS" %}<input class="form-control input-sm" type="text" id="lex2" name="lex[]" placeholder="{% trans "Part of Speech" %}" size="100%"></label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <a id="getgrm" onclick="getGrm(2)"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                            {% trans "Gram" %}<input class="form-control input-sm" type="text" id="gr2" name="grammar[]" placeholder="{% trans "Grammatical features" %}" size="100%"></label>
+                    </div>
+                    <div class="col-sm-2">
+                        <label>
+                            <a id="geterr" onclick="getErr(2)"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
+                            {% trans "Errors" %}<input class="form-control input-sm" type="text" id="err2" name="errors[]" placeholder="{% trans "Error tags" %}" size="100%"></label>
+                    </div>
+{#                    <div class="col-sm-2">#}
+{#                        <label>#}
+{#                            {% trans "Comment" %}<input class="form-control input-sm" type="text" name="comment[]" placeholder="{% trans "Comment" %}" size="100%"></label>#}
+{#                    </div>#}
+                    <div class="col-sm-2">
+                        <br><button id="b1" class="btn btn-success btn-add btn-sm" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        </div>
+     <input id="search" type="submit" class="btn btn-xs btn-default" name="lex_search" value="{% trans "Search" %}" />
+    </div>
+
+<div class="modal fade" id="subcorpus" tabindex="-1" role="dialog" aria-labelledby="subcorpusLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="subcorpusLabel">{% trans "Subcorpus" %}</h4>
+      </div>
+      <div class="modal-body">
+
+          <div class="row">
+                      <div class="col-sm-6">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">{% trans "Period" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                  <label for="ex1">{% trans "from" %}</label>
+                                </div>
+                                    <div class="col-xs-4">
+                                        <input class="form-control" name="date1" id="ex1" type="text" placeholder="2014">
+                                        </div>
+                                    <div class="col-xs-2">
+                                  <label for="ex2">{% trans "to" %}</label>
+                                </div>
+                                    <div class="col-xs-4">
+                                        <input class="form-control" name="date2" id="ex2" type="text" placeholder="2015">
+                                        </div>
+                                </div>
+
+
+                            </div>
+                          </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">{% trans "Gender of author" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                              <div class="radio">
+                                  <label class="radio-inline"><input type="radio" name="gender" value="м">{% trans "m" %}</label>
+                                  <label class="radio-inline"><input type="radio" name="gender" value="ж">{% trans "f" %}</label>
+                                  <label class="radio-inline"><input type="radio" name="gender" value="any" checked>{% trans "any" %}</label>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+
+
+			</div>
+                  <div class="row">
+                      <div class="col-sm-6">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">{% trans "Text mode" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                              <div class="radio">
+                                  <label class="radio-inline"><input type="radio" name="mode" value="у" disabled>{% trans "oral" %}</label>
+                                  <label class="radio-inline"><input type="radio" name="mode" value="п">{% trans "written" %}</label>
+                                  <label class="radio-inline"><input type="radio" name="mode" value="any" checked>{% trans "any" %}</label>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+				     <div class="col-sm-6">
+                          <div class="panel panel-default">
+                            <div class="panel-heading">
+                              <h3 class="panel-title">{% trans "Language background" %}</h3>
+                            </div>
+                            <div class="panel-body">
+                              <div class="radio">
+                                  <label class="radio-inline"><input type="radio" name="background" value="FL">{% trans "foreign" %}</label>
+                                  <label class="radio-inline"><input type="radio" name="background" value="HL">{% trans "heritage" %}</label>
+                                  <label class="radio-inline"><input type="radio" name="background" value="any" checked>{% trans "any" %}</label>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{% trans "Dominant language" %}</h3>
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                            <div class="col-sm-6">
+                                <div class="checkbox"><label><input type="checkbox" class="check" id="checkAll"> {% trans "Check All" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" class="check" value="eng">{% trans "English" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" class="check" value="ita">{% trans "Italian" %}</label></div>
+								<div class="checkbox"><label><input type="checkbox" name="language[]" class="check" value="nor" >{% trans "Norwegian" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" value="jap" class="check">{% trans "Japanese" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" value="kaz" class="check">{% trans "Kazakh" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" value="swe" class="check">{% trans "Swedish" %}</label></div>
+
+                            </div>
+                            <div class="col-sm-6">
+							<div class="checkbox"><label><input type="checkbox" name="language[]" class="check" value="kor" >{% trans "Korean" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" value="fr" class="check">{% trans "French" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" value="ger" class="check">{% trans "German" %}</label></div>
+								<div class="checkbox"><label><input type="checkbox" name="language[]" value="ser" class="check">{% trans "Serbian" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" value="chi" class="check">{% trans "Chinese" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" value="dut" class="check">{% trans "Dutch" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="language[]" value="fin" class="check">{% trans "Finnish" %}</label></div>
+
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                      </div>
+                  </div>
+          <div class="row">
+                  <div class="col-sm-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">{% trans "Level" %} <a href="#" data-toggle="tooltip" title="{% trans "Each text in the corpus is attributed to one of the general levels: Beginner, Intermediate, Advanced. At the same time, some of these texts have a corresponding CEFR or ACTFL level." %}" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a></h3>
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                          <table class="table">
+                              <tr>
+                                  <th>{% trans "Level" %}</th>
+                                  <th>{% trans "CEFR" %}</th>
+                                  <th>{% trans "ACTFL" %}</th>
+                              </tr>
+                              <tr>
+                                  <td><div class="checkbox"><label><input type="checkbox" name="generallevel[]" class="check1" value="beg">{% trans "Beginner" %}</label></div></td>
+                                  <td>
+                                      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="A1">{% trans "A1" %}</label></div>
+                                      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="A2">{% trans "A2" %}</label></div>
+                                  </td>
+                                  <td>
+                                      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="NL">{% trans "Novice Low" %}</label></div>
+                                        <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="NM">{% trans "Novice Middle" %}</label></div>
+                                        <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="NH">{% trans "Novice High" %}</label></div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td><div class="checkbox"><label><input type="checkbox" name="generallevel[]" class="check1" value="inter">{% trans "Intermediate" %}</label></div></td>
+                                  <td>
+                                      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="B1">{% trans "B1" %}</label></div>
+                                      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="B2">{% trans "B2" %}</label></div>
+                                  </td>
+                                  <td>
+                                      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="IL">{% trans "Intermediate Low" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="IM">{% trans "Intermediate Middle" %}</label></div>
+								<div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="IH">{% trans "Intermediate High" %}</label></div>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td><div class="checkbox"><label><input type="checkbox" name="generallevel[]" class="check1" value="adv">{% trans "Advanced" %}</label></div></td>
+                                  <td>
+                                      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="C1">{% trans "C1" %}</label></div>
+								      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="C2">{% trans "C2" %}</label></div>
+                                  </td>
+                                  <td>
+                                      <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="AL">{% trans "Advanced Low" %}</label></div>
+								<div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="AM">{% trans "Advanced Middle" %}</label></div>
+                                <div class="checkbox"><label><input type="checkbox" name="level[]" class="check1" value="AH">{% trans "Advanced High" %}</label></div>
+                                  </td>
+                              </tr>
+                          </table>
+
+                        </div>
+                    </div>
+                  </div>
+                      </div>
+                  </div>
+          </div>
+
+
+
+      <div class="modal-footer">
+          <div class="col-xs-6 text-left">
+              <div class="checkbox"><label><input type="checkbox" name="rulec" value="">{% trans "Search only in RULEC" %}</label></div>
+          </div>
+          <div class="col-xs-6">
+              <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+          </div>
+      </div>
+</div>
+    </div>
+  </div>
+
+<div class="modal fade" id="preferences" tabindex="-1" role="dialog" aria-labelledby="prefsLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="prefsLabel">{% trans "Preferences" %}</h4>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-6"><label for="sel1">{% trans "Output layout" %}<br><br></label></div>
+            <div class="col-sm-6">
+                <select class="form-control" name="format" id="sel1">
+                    <option>{% trans "full" %}</option>
+{#                    <option>KWIC</option>#}
+                </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6"><label for="sel2">{% trans "Matches per page" %}<br><br></label></div>
+            <div class="col-sm-6">
+                <select class="form-control"  name="per_page" id="sel2">
+                    <option>10</option>
+                    <option>20</option>
+                    <option>30</option>
+                    <option>40</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6"><label for="sel3">{% trans "Sentences in expanded context" %}<br><br></label></div>
+            <div class="col-sm-6">
+                <select class="form-control"  name="expand" id="sel3">
+                    <option>+-1</option>
+                    <option>+-2</option>
+                    <option>+-3</option>
+                </select>
+            </div>
+          </div>
+{#          <div class="row">#}
+{#            <div class="col-sm-6"><label for="sel4">{% trans "Sort by" %}<br></label></div>#}
+{#            <div class="col-sm-6">#}
+{#                <select class="form-control"  name="sort_by" id="sel4">#}
+{#                    <option>{% trans "wordform" %}</option>#}
+{#                    <option>{% trans "lexeme" %}</option>#}
+{#                    <option>{% trans "left wordform" %}</option>#}
+{#                    <option>{% trans "distance" %}</option>#}
+{#                    <option>{% trans "year descending" %}</option>#}
+{#                    <option>{% trans "student code" %}</option>#}
+{#                </select>#}
+{#            </div>#}
+{#          </div>#}
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+        </form>
+
+</div>
+{% endblock content %}
