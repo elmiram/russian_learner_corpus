@@ -32,15 +32,6 @@
   var id = $( this ).attr('name');
     $("#hidden"+id).toggle();
 });
-         $(".stars" ).click(function() {
-  var id = $( this ).attr('name');
-             var action = $( this ).attr('do');
-             $.get({% url 'annotations:star' %}+id+"/"+action,
-                    function (response) {
-                        $("#"+id+"+").html(data[1]);
-                        $("#second"+id).html(data[0]);
-                    });
-});
     });
      function search(id) {
 $.get("/RLC/document-annotations/get_correction_by_id/"+id,
