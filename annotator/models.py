@@ -2,6 +2,7 @@
 """ All models for the corpus: Document, Sentence, Token, Annotation, Morphology. """
 
 import json
+import re
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -206,7 +207,10 @@ class Document(models.Model):
                      (u'kaz', _(u'Kazakh')),
                      (u'dut', _(u'Dutch')),
                      (u'swe', _(u'Swedish')),
-                     (u'fin', _(u'Finnish'))
+                     (u'fin', _(u'Finnish')),
+                     (u'est', _(u'Estonian')),
+                     (u'por', _(u'Portuguese')),
+                     (u'dag', _(u'Dagestanian'))
                      )
     native = models.CharField(max_length=10, null=True, blank=False,
                               choices=NativeChoices, db_index=True,
