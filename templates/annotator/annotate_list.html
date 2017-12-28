@@ -221,10 +221,26 @@ $( "#showbutton" ).click(function() {
                     {% endif %}
             {% endfor %}
             </ol>
+      <br><a href=".toggle-folder-7" data-toggle="collapse"  class="label label-warning">
+          TOKYO
+        </a>
+      <ol class="toggle-folder-7 collapse in">
+                {% for doc in docs %}
+                    {% if not doc.annotated %}
+                        {% if doc.subcorpus == 'TOKYO' %}
+                            {% if request.user|has_group:"TOKYO" %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                                {% endif %}
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
         <ol>
             {% for doc in docs %}
                 {% if not doc.annotated %}
-                   {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE' and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN'%}
+                   {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE' and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN' and doc.subcorpus != 'TOKYO'%}
                     <li>
                         {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
                     </li>
@@ -316,12 +332,28 @@ $( "#showbutton" ).click(function() {
                     {% endif %}
             {% endfor %}
             </ol>
+      <br><a href=".toggle-folder-7-2" data-toggle="collapse"  class="label label-warning">
+          TOKYO
+        </a>
+      <ol class="toggle-folder-7-2 collapse in">
+                {% for doc in docs %}
+                    {% if not doc.annotated %}
+                        {% if doc.subcorpus == 'TOKYO' %}
+                            {% if request.user|has_group:"TOKYO" %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                                {% endif %}
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
           <ol>
               <!--<li> folder item 21</li>-->
               <!--</li> folder item 22</li>-->
                 {% for doc in docs %}
                     {% if doc.annotated and not doc.checked %}
-                        {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE'  and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN' %}
+                        {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE'  and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN' and doc.subcorpus != 'TOKYO' %}
                         <li>
                             {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}">{{ doc }} </a>
                         </li>
@@ -411,12 +443,28 @@ $( "#showbutton" ).click(function() {
                     {% endif %}
             {% endfor %}
             </ol>
+      <br><a href=".toggle-folder-7-3" data-toggle="collapse"  class="label label-warning">
+          TOKYO
+        </a>
+      <ol class="toggle-folder-7-3 collapse in">
+                {% for doc in docs %}
+                    {% if not doc.annotated %}
+                        {% if doc.subcorpus == 'TOKYO' %}
+                            {% if request.user|has_group:"TOKYO" %}
+                                <li>
+                                    {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
+                                </li>
+                                {% endif %}
+                        {% endif %}
+                    {% endif %}
+            {% endfor %}
+            </ol>
           <ol>
               <!--<li> folder item 21</li>-->
               <!--</li> folder item 22</li>-->
                 {% for doc in docs %}
                     {% if  doc.checked %}
-                        {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE'  and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN' %}
+                        {% if doc.subcorpus != 'RULEC' and doc.subcorpus != 'HSE'  and doc.subcorpus != 'UNICE' and doc.subcorpus != 'FIN' and doc.subcorpus != 'BERLIN' and doc.subcorpus != 'TOKYO' %}
                         <li>
                             {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}">{{ doc }} </a>
                         </li>

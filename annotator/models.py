@@ -93,7 +93,8 @@ class Document(models.Model):
                         (u"UNICE", u"UNICE"),
                         (u"RULEC", u"RULEC"),
                         (u"FIN", u"FIN"),
-                        (u"BERLIN", u"BERLIN"))
+                        (u"BERLIN", u"BERLIN"),
+                        (u"TOKYO", u"TOKYO"))
     subcorpus = models.CharField(max_length=5000, null=True, blank=True,
                                  verbose_name=_('subcorpus'), choices=SubcorpusChoices)
 
