@@ -335,7 +335,7 @@ $( "#showbutton" ).click(function() {
         </a>
       <ol class="toggle-folder-7-2 collapse in">
                 {% for doc in docs %}
-                    {% if not doc.annotated %}
+                    {% if doc.annotated  and not doc.checked %}
                         {% if doc.subcorpus == 'TOKYO' %}
                                 <li>
                                     {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
@@ -444,7 +444,7 @@ $( "#showbutton" ).click(function() {
         </a>
       <ol class="toggle-folder-7-3 collapse in">
                 {% for doc in docs %}
-                    {% if not doc.annotated %}
+                    {% if doc.checked %}
                         {% if doc.subcorpus == 'TOKYO' %}
                                 <li>
                                     {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
