@@ -228,11 +228,9 @@ $( "#showbutton" ).click(function() {
                 {% for doc in docs %}
                     {% if not doc.annotated %}
                         {% if doc.subcorpus == 'TOKYO' %}
-                            {% if request.user|has_group:"TOKYO" %}
                                 <li>
                                     {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
                                 </li>
-                                {% endif %}
                         {% endif %}
                     {% endif %}
             {% endfor %}
@@ -339,11 +337,9 @@ $( "#showbutton" ).click(function() {
                 {% for doc in docs %}
                     {% if not doc.annotated %}
                         {% if doc.subcorpus == 'TOKYO' %}
-                            {% if request.user|has_group:"TOKYO" %}
                                 <li>
                                     {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
                                 </li>
-                                {% endif %}
                         {% endif %}
                     {% endif %}
             {% endfor %}
@@ -450,11 +446,9 @@ $( "#showbutton" ).click(function() {
                 {% for doc in docs %}
                     {% if not doc.annotated %}
                         {% if doc.subcorpus == 'TOKYO' %}
-                            {% if request.user|has_group:"TOKYO" %}
                                 <li>
                                     {{ doc.id }}. <a href="{% url 'annotations:annotation.editor' doc.id %}"> {{ doc }} </a>
                                 </li>
-                                {% endif %}
                         {% endif %}
                     {% endif %}
             {% endfor %}
