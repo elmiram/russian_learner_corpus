@@ -831,6 +831,34 @@ msgstr "Русский учебный корпус Новости"
 msgid "ERROR TAGS"
 msgstr "Тэги ошибок"
 
+#: templates/search/errsel.html:27
+msgid "Spelling errors"
+msgstr "Орфографические ошибки"
+
+#: templates/search/errsel.html:44
+msgid "Lexical errors"
+msgstr "Лексические ошибки"
+
+#: templates/search/errsel.html:60
+msgid "Collocation errors"
+msgstr "Ошибки в конструкциях"
+
+#: templates/search/errsel.html:75
+msgid "Morphological errors"
+msgstr "Морфологические ошибки"
+
+#: templates/search/errsel.html:92
+msgid "Additional tags"
+msgstr "Дополнительные пометы"
+
+#: templates/search/errsel.html:119
+msgid "Syntax errors"
+msgstr "Синтаксические ошибки"
+
+#: templates/search/errsel.html:7
+msgid "All errors at once"
+msgstr "Все ошибки"
+
 #: templates/search/errsel.html:111
 msgid "Any error"
 msgstr "Любая ошибка"
@@ -1433,60 +1461,3 @@ msgstr "неизвестно"
 #: templates/stats.html:121
 msgid "Native language"
 msgstr "Доминантный язык"
-
-#~ msgid "Enter the name of the folder and file from which the text is taken."
-#~ msgstr "Введите название папки или файла, из которого скопирован текст"
-
-#~ msgid "Enter the name of the program in which the text was assigned"
-#~ msgstr "Введите название курса, на котором был задан текст"
-
-#~ msgid "Sort by"
-#~ msgstr "Сортировать по"
-
-#~ msgid "wordform"
-#~ msgstr "словоформе"
-
-#~ msgid "lexeme"
-#~ msgstr "лексеме"
-
-#~ msgid "left wordform"
-#~ msgstr "левой словоформе"
-
-#~ msgid "distance"
-#~ msgstr "расстоянию"
-
-#~ msgid "year descending"
-#~ msgstr "году (по убыванию)"
-
-#~ msgid "Checked"
-#~ msgstr "Проверено"
-
-#~ msgid "Annotated"
-#~ msgstr "Размечено"
-
-#~ msgid "Comment"
-#~ msgstr "Комментарий"
-
-#~ msgid "Spelling errors"
-#~ msgstr "Орфографические ошибки"
-
-#~ msgid "Lexical errors"
-#~ msgstr "Лексические ошибки"
-
-#~ msgid "Collocation errors"
-#~ msgstr "Ошибки в конструкциях"
-
-#~ msgid "Morphological errors"
-#~ msgstr "Морфологические ошибки"
-
-#~ msgid "Cause of errors"
-#~ msgstr "Причина ошибок"
-
-#~ msgid "Additional tags"
-#~ msgstr "Дополнительные пометы"
-
-#~ msgid "Syntactic errors"
-#~ msgstr "Синтаксические ошибки"
-
-#~ msgid "Genre counts"
-#~ msgstr "Статистика по жанрам"

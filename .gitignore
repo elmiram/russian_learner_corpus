@@ -7,7 +7,6 @@ venv/
 mystem*
 
 # Django related
-*.mo
 public/
 
 # Python

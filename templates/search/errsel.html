@@ -24,12 +24,12 @@
         <div class="col-sm-4">
 <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 title="Invert" class="panel-title gr_inv activeA grammar" onClick="inverse('orpho')">Орфографические ошибки</h3>
+            <h3 title="Invert" class="panel-title gr_inv activeA grammar" onClick="inverse('orpho')">{% trans "Spelling errors" %}</h3>
           </div>
         <div class="panel-body">
           <div class="gr_group">
 		  <div>
-<input type="checkbox" name="orpho" value="Graph" id="orphograph">&nbsp;<label for="orphograph">Graph</label><a href="#" data-toggle="tooltip" title="Смешение алфавитов" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a><br/>
+<input type="checkbox" name="orpho" value="Graph" id="orphograph">&nbsp;<label for="orphograph">Graph</label><a href="#" data-toggle="tooltip" title="{% trans "Смешение алфавитов"}" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a><br/>
 <input type="checkbox" name="orpho" value="Hyphen" id="orphohyphen">&nbsp;<label for="orphohyphen">Hyphen</label><a href="#" data-toggle="tooltip" title="Ошибки в дефисном написании" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a><br/>
 <input type="checkbox" name="orpho" value="Space" id="orphospace">&nbsp;<label for="orphospace">Space</label><a href="#" data-toggle="tooltip" title="Ошибка в слитно-раздельном написании" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a><br/>
 <input type="checkbox" name="orpho" value="Ortho" id="orphoortho">&nbsp;<label for="orphoortho">Ortho</label><a href="#" data-toggle="tooltip" title="Прочие орфографические ошибки" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a><br/>
@@ -41,7 +41,7 @@
         </div>
 <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 title="Invert" class="panel-title activeA  gr_inv grammar" onClick="inverse('lexis')">Лексические ошибки</h3>
+            <h3 title="Invert" class="panel-title activeA  gr_inv grammar" onClick="inverse('lexis')">{% trans 'Lexical errors' %}</h3>
           </div>
         <div class="panel-body">
           <div class="gr_group">
@@ -57,7 +57,7 @@
         </div>
 <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 title="Invert" class="gr_inv panel-title activeA grammar" onClick="inverse('constr')">Ошибки в конструкциях</h3>
+            <h3 title="Invert" class="gr_inv panel-title activeA grammar" onClick="inverse('constr')">{% trans 'Collocation errors' %}</h3>
           </div>
         <div class="panel-body">
           <div class="gr_group">
@@ -72,7 +72,7 @@
 <div class="col-sm-4">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 title="Invert" class="gr_inv panel-title activeA grammar" onClick="inverse('morpho')">Морфологические ошибки</h3>
+            <h3 title="Invert" class="gr_inv panel-title activeA grammar" onClick="inverse('morpho')">{% trans 'Morphological errors' %}</h3>
           </div>
         <div class="panel-body">
           <div class="gr_group">
@@ -89,7 +89,7 @@
         </div>
     <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 title="Invert" class="panel-title gr_inv activeA grammar"  onClick="inverse('additional')">Дополнительные пометы</h3>
+          <h3 title="Invert" class="panel-title gr_inv activeA grammar"  onClick="inverse('additional')">{% trans 'Additional tags' %}</h3>
         </div>
         <div class="panel-body">
           <div class="gr_group">
@@ -108,7 +108,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title gr_inv activeA grammar">
-              <input type="checkbox" value="Graph|Hyphen|Space|Ortho|Translit|Misspell|lex|CS|Par|Idiom|Constr|Deriv|Infl|Num|Gender|Morpho|Transfer|Not-clear|Del|Insert|Subst|Transp|Asp|ArgStr|Passive|Refl|AgrNum|AgrCase|AgrGender|AgrPers|AgrGerund|Gov|Ref|Conj|WO|Neg|Aux|Brev|Syntax|Mode|Altern|Tense" id="anyerror">&nbsp;<label for="anyerror">{% trans "Any error"%}</label><a href="#" data-toggle="tooltip" title="Слово помечено хотя бы одной любой ошибкой" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
+              <input type="checkbox" value="Graph|Hyphen|Space|Ortho|Translit|Misspell|lex|CS|Par|Idiom|Constr|Deriv|Infl|Num|Gender|Morpho|Transfer|Not-clear|Del|Insert|Subst|Transp|Asp|ArgStr|Passive|Refl|AgrNum|AgrCase|AgrGender|AgrPers|AgrGerund|Gov|Ref|Conj|WO|Neg|Aux|Brev|Syntax|Mode|Altern|Tense" id="anyerror">&nbsp;<label for="anyerror">{% trans "Any error" %}</label><a href="#" data-toggle="tooltip" title="Слово помечено хотя бы одной любой ошибкой" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
           </h3>
         </div>
         </div>
@@ -116,7 +116,7 @@
 <div class="col-sm-4">
 <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 title="Invert" class="panel-title gr_inv activeA grammar"  onClick="inverse('syntax')">Синтаксические ошибки</h3>
+            <h3 title="Invert" class="panel-title gr_inv activeA grammar"  onClick="inverse('syntax')">{% trans 'Syntax errors' %}</h3>
           </div>
         <div class="panel-body">
           <div class="gr_group">
@@ -144,6 +144,12 @@
           </div>
 		  </div>
         </div>
+        </div>
+<div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title gr_inv activeA grammar">
+              <input type="checkbox" value="allerrors" id="allerrors">&nbsp;<label for="allerrors">{% trans "All errors at once"%}</label><a href="#" data-toggle="tooltip" title="В слове встречаются все выбранные ошибки" style="color:lightgrey"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
+          </h3>
         </div>
       </div>
         </div>

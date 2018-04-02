@@ -545,7 +545,6 @@ def collect_data(arr):
         req += ' AND document_id IN ' + sentences
     else:
         req += ' AND sent_id IN ' + sentences
-
     rows = db.execute(req)
     sent_num = int(db.execute(n_req)[0][0])
     d_num = int(db.execute(d_req)[0][0])
@@ -564,9 +563,14 @@ def parse_lex(lex):
 
 def parse_gram(gram, t):
     req = ''
-    arr = gram.split(',')
+    if 'allerrors' in gram and t == 'tag':
+        gram = gram.replace('|', ',')
+        arr = gram.split(',')
+        arr = arr[:-1]  # чтобы исключить сам тег "allerrors"
+    else:
+        arr = gram.split(',')
     for gr in arr:
-        one = [t + ' LIKE "%' + i.strip() + '%"' for i in gr.replace(')', '').replace('(', '').split('|')]
+        one = [t + ' RLIKE "((,| |^)' + i.strip() + '($|,| ))"' for i in gr.replace(')', '').replace('(', '').split('|')]
         if len(one) == 1:
             req += 'AND '+ one[0] + ' '
         else:
