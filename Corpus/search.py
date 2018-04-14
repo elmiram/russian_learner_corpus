@@ -570,7 +570,7 @@ def parse_gram(gram, t):
     else:
         arr = gram.split(',')
     for gr in arr:
-        one = [t + ' RLIKE "((,| |^)' + i.strip() + '($|,| ))"' for i in gr.replace(')', '').replace('(', '').split('|')]
+        one = [t + ' LIKE "%' + i.strip() + '%"' for i in gr.replace(')', '').replace('(', '').split('|')]
         if len(one) == 1:
             req += 'AND '+ one[0] + ' '
         else:
