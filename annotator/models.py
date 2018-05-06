@@ -211,7 +211,8 @@ class Document(models.Model):
                      (u'fin', _(u'Finnish')),
                      (u'est', _(u'Estonian')),
                      (u'por', _(u'Portuguese')),
-                     (u'dag', _(u'Dagestanian'))
+                     (u'dag', _(u'Dagestanian')),
+		     (u'taj', _(u'Tajik'))
                      )
     native = models.CharField(max_length=10, null=True, blank=False,
                               choices=NativeChoices, db_index=True,

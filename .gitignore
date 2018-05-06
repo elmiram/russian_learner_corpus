@@ -1,6 +1,7 @@
 # User-specific stuff:
 .idea/
 venv/
+t.txt
 
 # Sensitive stuff
 .secure.settings.json

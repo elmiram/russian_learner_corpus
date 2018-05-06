@@ -371,6 +371,10 @@ msgstr "португальский"
 msgid "Dagestanian"
 msgstr "дагестанский"
 
+#: annotator/models.py:215 templates/search/search.html:309
+msgid "Tajik"
+msgstr "таджикский"
+
 #: annotator/models.py:218
 msgid "dominant language"
 msgstr "доминантный язык"
