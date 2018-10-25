@@ -33,7 +33,7 @@ reSpan = re.compile(u'<span class="token"( data-toggle="tooltip")? title=".*?">(
 import json
 
 
-def download_file(doc_id, doc_type):
+def download_file(request, doc_id, doc_type):
     db = Database()
     if doc_type == 'ann':
         req = "SELECT `username`, `data`, `tag`, `start`, `end` FROM `annotator_annotation` LEFT JOIN `auth_user` ON annotator_annotation.owner_id=auth_user.id WHERE `document_id` in (SELECT id FROM `annotator_sentence` WHERE `doc_id_id`=%s)" %doc_id
@@ -49,7 +49,7 @@ def download_file(doc_id, doc_type):
         req = "SELECT text FROM `annotator_sentence` WHERE `doc_id_id`=%s" %doc_id
         text = u' '.join(h.unescape(i[0]) for i in db.execute(req))
         response = HttpResponse(text, content_type='text/plain')
-        response['Content-Disposition'] = 'filename="text_%s.txt"' %doc_id
+        response['Content-Disposition'] = 'attachment; filename="text_%s.txt"' %doc_id
         return response
     else:
         req = "SELECT `token`,`num`, `sent_id` FROM `annotator_token` WHERE `doc_id`=%s" %doc_id
