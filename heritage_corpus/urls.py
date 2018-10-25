@@ -16,7 +16,7 @@ urlpatterns = patterns('',
 
     url(r'^document-annotations', include('annotator.urls', namespace='annotations')),
 
-    url(r'^(help|rulec|conference)$', Index.as_view(), name='main.static'),
+    url(r'^(help|rulec|jrfllc|conference)$', Index.as_view(), name='main.static'),
 
     url(r'^news$', NewsView.as_view(), name='news'),
 
